@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 
 interface ListCardProps {
   name: string;
@@ -78,5 +78,3 @@ export const RecipeById: FC<RecipeByIdProps> = ({ data }) => {
     </div>
   );
 };
-
-
