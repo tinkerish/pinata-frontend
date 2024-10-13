@@ -105,7 +105,7 @@ export const RecipeById: FC<RecipeByIdProps> = ({ data, rateRecipe }) => {
             />
           </div>
         </div>
-        <div>{data.recipe}</div>
+        <div dangerouslySetInnerHTML={{ __html: data.recipe }}></div>
       </div>
     </div>
   );
