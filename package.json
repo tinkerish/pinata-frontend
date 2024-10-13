@@ -7,13 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "install-server": "npm install",
-    "start-server": "node main.tsx",
-    "install-client": "cd client && npm install",
-    "build-client": "cd client && npm run build",
-    "start-client": "cd client && npm run start"
+    "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.7.7",
