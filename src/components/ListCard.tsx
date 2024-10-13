@@ -55,7 +55,7 @@ const ListCardComponent: FC<ListCardProp> = ({
   return (
     <div className=" bg-white duration-[1s] rounded-lg customShadow p-1">
       <div className="p-4 flex items-center gap-4">
-        <div className="w-[10%] shadow-2xl">
+        <div className="w-[200px] shadow-2xl">
           <img src={image} alt={name} className="w-full rounded-lg" />
         </div>
         <div className="flex flex-col w-[87%] p-4  gap-2">
