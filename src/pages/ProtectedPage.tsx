@@ -13,44 +13,44 @@ const ProtectedPageComponent = () => {
     name: string;
     rating: number;
   } | null>(null);
-  useEffect(() => {
-    if (!token) {
-      window.location.href = "/";
-    }
-  }, [token]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setLoading(true);
-        const resp = await axios.get(`https://pinata-backend.onrender.com/user/getUser`, {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
-        if (resp.status !== 200) {
-          setUserData(null);
-          return;
-        }
+  // useEffect(() => {
+  //   if (!token) {
+  //     window.location.href = "/";
+  //   }
+  // }, [token]);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const resp = await axios.get(`https://pinata-backend.onrender.com/user/getUser`, {
+  //         headers: {
+  //           Authorization: `${token}`,
+  //         },
+  //       });
+  //       if (resp.status !== 200) {
+  //         setUserData(null);
+  //         return;
+  //       }
 
-        setUserData(resp.data.user);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        console.error(err);
-      }
-    };
-    fetchUserData();
-  }, [token]);
+  //       setUserData(resp.data.user);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setLoading(false);
+  //       console.error(err);
+  //     }
+  //   };
+  //   fetchUserData();
+  // }, [token]);
 
-  if (!token) return null;
-  if (loading) return <FullLoader variant="full-screen" />;
+  // if (!token) return null;
+  // if (loading) return <FullLoader variant="full-screen" />;
   return (
     <main>
       <Navbar
-        email={userData?.email}
-        name={userData?.name}
-        rating={userData?.rating}
+        email={userData?.email || "priya"}
+        name={userData?.name || "priya"}
+        rating={userData?.rating || 0}
       />
       <Outlet />
       <Footer />
