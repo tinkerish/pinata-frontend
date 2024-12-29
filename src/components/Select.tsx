@@ -14,6 +14,7 @@ interface SelectProps {
   name: string;
   inputClassName?: string;
   className?: string;
+  labelClassName?: string;
 }
 
 const Select: FC<SelectProps> = ({
@@ -25,10 +26,11 @@ const Select: FC<SelectProps> = ({
   labelHidden,
   inputClassName,
   className,
+  labelClassName,
 }) => {
   return (
     <div className={className}>
-      <label htmlFor={name} hidden={labelHidden}>
+      <label htmlFor={name} hidden={labelHidden} className={labelClassName}>
         {label}
       </label>
       <select

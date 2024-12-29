@@ -1,11 +1,18 @@
-import { lazy, Suspense } from "react";
+import { FC, Suspense } from "react";
+import { TabComponent } from "../types/common";
+interface TabsComponentProps {
+  value: number;
+  onChange: (value: number) => void;
+  tabs: TabComponent[];
+}
+export const Tabs: FC<TabsComponentProps> = ({ value, onChange, tabs }) => {
+  const TabsLazyComponent = tabs[value].component;
+  const componentProps = tabs[value].props;
 
-export const Tabs = ({ value, onChange, tabs }) => {
-  const TabsLazyComponent = lazy(() => import(tabs[value].component));
   return (
     <div
       role="tab"
-      className="bg-white p-4 min-w-[80%] min-h-[85vh] overflow-y-scroll flex flex-col"
+      className="bg-white p-4 max-w-[85%] flex flex-col max-sm:w-[85%] w-[80%] justify-between"
     >
       <div className="flex items-center justify-end gap-2" role="tablist">
         {tabs.map((tab, index) => (
@@ -18,18 +25,27 @@ export const Tabs = ({ value, onChange, tabs }) => {
           />
         ))}
       </div>
-      <div role="tabpanel" className="flex-grow flex flex-col">
+      <div role="tabpanel" className="flex flex-col max-h-[95%] h-[95%]">
         <Suspense fallback={<div>Loading...</div>}>
           <TabsLazyComponent
-            id={`tabpanel-${value}`}
-            ariaLabelledby={`tab-${value}`}
+            {...{
+              ...componentProps,
+              id: `${componentProps.id}-${value}`,
+              ariaLabelledBy: `${componentProps.ariaLabelledBy}-${value}`,
+            }}
           />
         </Suspense>
       </div>
     </div>
   );
 };
-export const Tab = ({ title, onClick, active, index }) => {
+interface TabProps {
+  title: string;
+  onClick: (index: number) => void;
+  active: boolean;
+  index: number;
+}
+export const Tab: FC<TabProps> = ({ title, onClick, active, index }) => {
   return (
     <div aria-controls={`tabpanel-${index}`} id={`tab-${index}`}>
       <button

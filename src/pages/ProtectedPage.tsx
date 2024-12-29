@@ -46,7 +46,7 @@ const ProtectedPageComponent = () => {
   // if (!token) return null;
   // if (loading) return <FullLoader variant="full-screen" />;
   return (
-    <main>
+    <main className="min-h-[100vh] flex flex-col justify-between gap-8">
       <Navbar
         email={userData?.email || "priya"}
         name={userData?.name || "priya"}

@@ -1,4 +1,4 @@
-import { RecipeForm } from "../types/common";
+import { RecipeForm } from "../types/form";
 
 const checkErrors = (formData: RecipeForm, step: number) => {
   console.log("formData", formData);

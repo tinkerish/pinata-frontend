@@ -40,12 +40,15 @@ export interface RecipeForm {
   ingredients: Ingredient[];
   instructions: Instruction[];
 }
-export enum DynamicFieldContext {
-  Ingredient = "ingredient",
-  Instruction = "instruction",
-  Text = "text",
-}
+
 export interface FormValidation {
   errors: Record<string, string>;
   isErrors: boolean;
+}
+export enum FileUploadType {
+  JPEG = "image/jpeg",
+  JPG = "image/jpg",
+  PNG = "image/png",
+  GIF = "image/gif",
+  MP4 = "video/mp4",
 }

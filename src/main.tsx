@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { ProtectedPage } from "./pages/ProtectedPage.tsx";
+import "regenerator-runtime/runtime";
 import {
   createBrowserRouter,
   createRoutesFromElements,

@@ -11,18 +11,18 @@ const StepsIndicator: FC<StepsIndicatorProps> = ({
   console.log("completedSteps", completedSteps);
 
   return (
-    <div className="w-full flex justify-between gap-4">
+    <div className="w-full flex justify-between md:gap-4 gap-2">
       {[...Array(stepsAmount)].map((_, index) => (
-        <div className="w-full flex justify-between items-center gap-4">
+        <div className="w-full flex justify-between items-center md:gap-4 gap-2">
           <div
             key={index}
-            className="w-4 h-4 p-4 bg-blue-600 text-white rounded-full flex items-center justify-center"
+            className="md:w-4 md:h-4 md:p-4 w-2 h-2 p-2 bg-[#e3752c] text-white font-extrabold rounded-full flex items-center justify-center"
           >
             {index + 1}
           </div>
           <div
-            className={`w-full border h-4 rounded-lg ${
-              completedSteps[index] === true ? "bg-blue-600" : "bg-gray-300"
+            className={`w-full border md:h-4 h-2 rounded-lg ${
+              completedSteps[index] === true ? "bg-[#e3752c]" : "bg-gray-300"
             }`}
           ></div>
         </div>
