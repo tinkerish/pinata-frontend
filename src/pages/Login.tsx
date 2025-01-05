@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import plate from "../assets/dinner.png";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import "./login.css";
 import { validateEmail, validatePassword } from "../utils/authFormChecks";
 import axios from "axios";
@@ -40,7 +40,7 @@ const LoginPage = () => {
           password,
         }
       );
-      toast.success(response.data.message);
+      // toast.success(response.data.message);
       const expirationTime = new Date().getTime() + 60 * 60 * 1000;
       setAuthData(response.data.token, response.data.userId, expirationTime);
       setEmail("");
@@ -50,9 +50,9 @@ const LoginPage = () => {
     } catch (error: unknown) {
       setLoading(false);
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "An error occurred");
+        // toast.error(error.response?.data?.message || "An error occurred");
       } else {
-        toast.error("An unexpected error occurred");
+        // toast.error("An unexpected error occurred");
       }
     }
   };
@@ -136,7 +136,7 @@ const LoginPage = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

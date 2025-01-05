@@ -3,7 +3,7 @@ import { RecipeById } from "../components/RecipeById";
 import { useParams } from "react-router-dom";
 import { ListCardProps } from "../components/ListCard";
 import { useAuth } from "../hooks/useAuth";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import axios from "axios";
 
 const RecipeComponent = () => {
@@ -35,7 +35,7 @@ const RecipeComponent = () => {
       }
       window.location.reload();
     } catch (err: unknown) {
-      toast.error("Error rating recipe");
+      // toast.error("Error rating recipe");
     }
   };
   useEffect(() => {

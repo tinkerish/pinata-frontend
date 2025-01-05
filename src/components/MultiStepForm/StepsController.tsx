@@ -3,18 +3,20 @@ import StepsIndicator from "./StepsIndicator";
 import food from "../../assets/file.png";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
+import useFormStore from "../../store/formStore";
 interface StepsControllerProps {
   steps: React.ReactNode[];
   stepsAmount: number;
-  manageValidations?: (step: number) => boolean;
+  submitHandler: () => void;
 }
 const StepsController: FC<StepsControllerProps> = ({
   steps,
   stepsAmount,
-  manageValidations,
+  submitHandler,
 }) => {
   const [step, setStep] = useState(0);
   const [stepCompleted, setStepCompleted] = useState(steps.map(() => false));
+  const manageValidations = useFormStore((state) => state.manageValidations);
   const nextStepHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!manageValidations?.(step)) {
@@ -30,7 +32,10 @@ const StepsController: FC<StepsControllerProps> = ({
       updated[step] = true;
       return updated;
     });
-    if (step === 2) return;
+    if (step === 2) {
+      submitHandler();
+      return;
+    }
     setStep((prev) => prev + 1);
   };
   const prevStepHandler = (e: React.MouseEvent<HTMLButtonElement>) => {

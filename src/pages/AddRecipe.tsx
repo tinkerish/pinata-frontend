@@ -5,10 +5,9 @@ import { lazy, useCallback, useState } from "react";
 // import { ListCardProps } from "../components/ListCard";
 // import { toast, ToastContainer } from "react-toastify";
 import { Tabs } from "../components/Tabs";
-import { FormValidation, RecipeForm } from "../types/form.tsx";
 import { TabComponent } from "../types/common.tsx";
-import { checkErrors } from "../utils/multiStepValidation.ts";
 import Loading from "../components/loading.tsx";
+import useFormStore from "../store/formStore.tsx";
 
 const EditComponent = lazy(
   () => import("../components/MultiStepForm/index.tsx")
@@ -23,49 +22,11 @@ const AddRecipePageComponent = () => {
   // const { id } = useParams();
   // const { token } = useAuth();
   // const [recipe, setRecipe] = useState<ListCardProps | null>(null);
+  const formData = useFormStore((state) => state.formData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [tab, setTab] = useState(0);
-  const [formData, setFormData] = useState<RecipeForm>({
-    title: "",
-    description: "",
-    cuisineType: "",
-    estimatedCookingTime: {
-      value: 0,
-      qualifier: "minutes",
-    },
-    servingSize: 0,
-    difficulty: "easy",
-    coverImage: "",
-    ingredients: [
-      {
-        name: "",
-        quantity: 0,
-        measurementUnit: "grams",
-        notes: "",
-      },
-    ],
-    instructions: [
-      {
-        instruction: "",
-        image: "",
-        video: "",
-        tips: "",
-      },
-    ],
-  });
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({
-    title: "",
-    description: "",
-    cuisineType: "",
-    estimatedCookingTime: "",
-    servingSize: "",
-    difficulty: "",
-    coverImage: "",
-    ingredients: "",
-    instructions: "",
-  });
-  const submitHandler = () => {
+  const submitHandler = useCallback(() => {
     try {
       setLoading(true);
       setTimeout(() => {
@@ -76,21 +37,7 @@ const AddRecipePageComponent = () => {
     } finally {
       setLoading(false);
     }
-  };
-  const manageValidations = (step: number) => {
-    const { errors, isErrors }: FormValidation = checkErrors(formData, step);
-
-    if (!isErrors && step === 2) {
-      submitHandler();
-      return true;
-    }
-    if (!isErrors) {
-      setFormErrors(errors);
-      return true;
-    }
-    setFormErrors(errors);
-    return false;
-  };
+  }, [formData]);
   const tabChangeHandler = (index: number) => {
     setTab(index);
   };
@@ -101,19 +48,17 @@ const AddRecipePageComponent = () => {
       props: {
         id: "tabpanel",
         ariaLabelledBy: "tab",
-        formData,
-        onChange: setFormData,
-        formErrors,
-        manageValidations,
+        submitHandler: submitHandler,
       },
     },
     {
       title: "Preview",
       component: PreviewComponent,
-      props: { id: "tabpanel", ariaLabelledBy: "tab", formData },
+      props: { id: "tabpanel", ariaLabelledBy: "tab" },
     },
   ];
   // useEffect(() => {
+  // console.log(error);
   //   if (id) {
   //     const fetchRecipeById = async () => {
   //       // fetch recipe by id

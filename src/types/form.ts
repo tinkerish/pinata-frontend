@@ -3,7 +3,7 @@ export interface MeasurementUnit {
   qualifier?: string | TimeQualifier | IngredientMeasurement;
 }
 type TimeQualifier = "minutes" | "hours";
-type Difficulty = "easy" | "medium" | "hard";
+export type Difficulty = "easy" | "medium" | "hard";
 export type IngredientMeasurement =
   | "grams"
   | "cups"

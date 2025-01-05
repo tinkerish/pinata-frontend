@@ -16,12 +16,10 @@ const Modal = () => {
   const [showModal, setShowModal] = useState(false);
   const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
   const openModal = useCallback(() => {
-    setButtonRef(document.activeElement);
+    setButtonRef(document.activeElement as HTMLButtonElement);
     setShowModal(true);
   }, []);
   const closeModal = useCallback(() => {
-    console.log("buttonRef", buttonRef);
-
     buttonRef?.focus();
     setShowModal(false);
   }, [buttonRef]);

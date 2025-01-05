@@ -1,4 +1,4 @@
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { Ingredient, IngredientMeasurement, Instruction } from "../types/form";
 import IngredientComponent from "./Ingredient";
 import InstructionComponent from "./Instruction";
@@ -41,7 +41,6 @@ const DynamicFieldComponent: FC<DynamicFieldProps> = ({
     } else {
       newFields.splice(index + 1, 0, defaultValue);
     }
-    // setFieldValue(newFields as string[] | Ingredient[]);
     if (context === DynamicFieldContext.Ingredient) {
       onChange(newFields as Ingredient[]);
     } else if (context === DynamicFieldContext.Instruction) {
@@ -52,21 +51,18 @@ const DynamicFieldComponent: FC<DynamicFieldProps> = ({
     (val: string | Ingredient | Instruction, index: number) => {
       const newFields = [...value];
       newFields[index] = val;
-      // setFieldValue(newFields as string[] | Ingredient[] | Instruction[]);
       if (context === DynamicFieldContext.Ingredient) {
         onChange(newFields as Ingredient[]);
       } else if (context === DynamicFieldContext.Instruction) {
         onChange(newFields as Instruction[]);
       }
-      console.log(val);
     },
 
-    [context, onChange]
+    [context, onChange, value]
   );
   function removeField(e: React.MouseEvent<HTMLButtonElement>, index: number) {
     e.preventDefault();
     const newFields = value.filter((_, i) => i !== index);
-    // setFieldValue(newFields as string[] | Ingredient[] | Instruction[]);
     if (context === DynamicFieldContext.Ingredient) {
       onChange(newFields as Ingredient[]);
     } else if (context === DynamicFieldContext.Instruction) {

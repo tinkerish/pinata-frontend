@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import FileUploader from "../components/FileUploader";
+import { useState } from "react";
 
 const meta: Meta<typeof FileUploader> = {
   component: FileUploader,
@@ -11,9 +12,18 @@ export default meta;
 type Story = StoryObj<typeof FileUploader>;
 
 const FileUpload = () => {
+  const [image, setImage] = useState<File[] | null>(null);
+  const [video, setVideo] = useState<File[] | null>(null);
+  const handleChange = (
+    imagefiles: File[] | null,
+    videoFiles: File[] | null
+  ) => {
+    setImage(imagefiles);
+    setVideo(videoFiles);
+  };
   return (
     <div className="">
-      <FileUploader />
+      <FileUploader image={image} video={video} onChange={handleChange} />
     </div>
   );
 };

@@ -1,69 +1,79 @@
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
 import "../styles/record.css";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { IoMdMic, IoMdMicOff } from "react-icons/io";
-import { RiResetLeftFill } from "react-icons/ri";
+import Error from "./Error";
 interface SpeechRecognitionComponentProps {
-  onChange: (val: string) => void;
-  isEnabled?: boolean;
+  onChange: (val: string, name: string) => void;
+  value: string;
 }
 const SpeechRecognitionComponent: FC<SpeechRecognitionComponentProps> = ({
+  value,
   onChange,
-  isEnabled = false,
 }) => {
   const [recordIcon, setRecordIcon] = useState(false);
-  const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
+  const [errorMessage, setErrorMessage] = useState("");
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   useEffect(() => {
-    onChange(transcript);
-  }, [transcript,onChange]);
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
-  const onReset = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    resetTranscript();
-  };
-  const onToggleListening = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setErrorMessage("Speech Recognition is not supported in this browser.");
+      return;
+    }
+    const recognitionInstance = new SpeechRecognition();
+    recognitionInstance.continuous = true;
+    recognitionInstance.lang = "en-US";
+    recognitionRef.current = recognitionInstance;
+  }, []);
+  useEffect(() => {
+    if (!recognitionRef.current) return;
+    recognitionRef.current.onresult = (event) => {
+      const resultIndex = event.resultIndex;
+      const currentTranscription = event.results[resultIndex][0].transcript;
+      const updatedValue = value + " " + currentTranscription;
+      onChange(updatedValue, "instruction");
+    };
+  }, [onChange, value]);
+  const toggleListening = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setRecordIcon((prev) => {
+      if (!recognitionRef.current) return prev;
       if (!prev) {
-        SpeechRecognition.startListening({
-          continuous: true,
-        });
+        recognitionRef.current.start();
       } else {
-        SpeechRecognition.stopListening();
+        recognitionRef.current.stop();
       }
       return !prev;
     });
   };
+
   return (
-    <div className={`flex items-center justify-between gap-1`}>
-      <button
-        id="micButton"
-        className={`mic-button bg-red-600 ${recordIcon && "recording"} ${
-          !isEnabled && "cursor-not-allowed"
-        }`}
-        disabled={!isEnabled}
-        onClick={(e) => onToggleListening(e)}
-      >
-        {recordIcon ? (
-          <IoMdMic size={25} color="white" />
-        ) : (
-          <IoMdMicOff size={25} color="white" />
-        )}
-      </button>
-      <button
-        onClick={(e) => onReset(e)}
-        className={`mic-button bg-[#007bff] ${
-          !isEnabled && "opacity-55 cursor-not-allowed"
-        }`}
-        disabled={!isEnabled}
-      >
-        <RiResetLeftFill color="white" size={25} />
-      </button>
+    <div className={`flex flex-col gap-1 w-full`}>
+      <div className="flex items-center border border-solid border-gray-400 rounded-lg focus:outline-gray-500 w-full justify-between">
+        <input
+          type="text"
+          id="instruction"
+          name="instruction"
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value, e.target.name);
+          }}
+          className="w-[95%] outline-none"
+          disabled={recordIcon}
+        />
+        <button
+          id="micButton"
+          className={`w-fit mic-button bg-red-600 ${recordIcon && "recording"}`}
+          onClick={(e) => toggleListening(e)}
+        >
+          {recordIcon ? (
+            <IoMdMic size={40} color="white" />
+          ) : (
+            <IoMdMicOff size={20} color="white" />
+          )}
+        </button>
+      </div>
+      {errorMessage && <Error errorMessage={errorMessage} />}
     </div>
   );
 };

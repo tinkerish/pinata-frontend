@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { ListCardProps } from "../components/ListCard";
 import { ListLoader } from "../components/ListLoader";
 const MyRecipePageComponent = () => {
@@ -37,7 +37,7 @@ const MyRecipePageComponent = () => {
         prev.filter((recipe: ListCardProps) => recipe._id !== id)
       );
     } catch (err: unknown) {
-      toast.error("Error deleting recipe");
+      // toast.error("Error deleting recipe");
     }
   };
   useEffect(() => {

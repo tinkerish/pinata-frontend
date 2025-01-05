@@ -1,23 +1,24 @@
-import { FC, useCallback } from "react";
-import { Ingredient, RecipeForm } from "../../types/form";
+import { useCallback } from "react";
+import { Ingredient } from "../../types/form";
 import { DynamicField } from "../DynamicFields";
 import { DynamicFieldContext } from "../../types/common";
+import useFormStore from "../../store/formStore";
 
 // Dynamic Ingredient name, quantity, measurement unit (e.g., grams, cups), and optional notes (like “finely chopped”)-> Step2
 
-interface Step2Props {
-  value: RecipeForm;
-  onChange: React.Dispatch<React.SetStateAction<RecipeForm>>;
-  formErrors: Record<string, string>;
-}
-const Step2: FC<Step2Props> = ({ value, onChange, formErrors }) => {
+// interface Step2Props {
+// value: RecipeForm;
+// onChange: React.Dispatch<React.SetStateAction<RecipeForm>>;
+// formErrors: Record<string, string>;
+// }
+const Step2 = () => {
+  const value = useFormStore((state) => state.formData);
+  const formErrors = useFormStore((state) => state.formErrors);
+  const onChange = useFormStore((state) => state.setFormData);
   const handleIngredientChange = useCallback(
     (val: Ingredient[]) => {
-      onChange((prev) => {
-        return {
-          ...prev,
-          ingredients: val,
-        };
+      onChange({
+        ingredients: val,
       });
     },
     [onChange]

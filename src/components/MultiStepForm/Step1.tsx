@@ -1,7 +1,7 @@
-import React, { FC } from "react";
-import { RecipeForm } from "../../types/form";
+import React from "react";
 import Select from "../Select";
 import Error from "../Error";
+import useFormStore from "../../store/formStore";
 
 // title, description, cuisine type, estimated cooking time, serving size, difficulty, cover image-> STep1
 const DIFFICULTY_OPTIONS = [
@@ -28,37 +28,35 @@ const COOK_TIME_OPTIONS = [
     name: "Hours",
   },
 ];
-interface Step1Props {
-  value: RecipeForm;
-  onChange: React.Dispatch<React.SetStateAction<RecipeForm>>;
-  formErrors: Record<string, string>;
-}
-const Step1: FC<Step1Props> = ({ value, onChange, formErrors }) => {
+// interface Step1Props {
+// value: RecipeForm;
+// onChange: React.Dispatch<React.SetStateAction<RecipeForm>>;
+// formErrors: Record<string, string>;
+// }
+const Step1 = () => {
+  const value = useFormStore((state) => state.formData);
+  const formErrors = useFormStore((state) => state.formErrors);
+  const onChange = useFormStore((state) => state.setFormData);
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
-    onChange((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
+    onChange({
+      [name]: value,
     });
   };
   const handleCookTimeChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
-    const { name, value } = e.target;
-    onChange((prev) => {
-      return {
-        ...prev,
-        estimatedCookingTime: {
-          ...prev.estimatedCookingTime,
-          [name]: value,
-        },
-      };
+    const { name, value: timeVal } = e.target;
+    onChange({
+      estimatedCookingTime: {
+        ...value.estimatedCookingTime,
+        [name]: timeVal,
+      },
     });
   };
   return (

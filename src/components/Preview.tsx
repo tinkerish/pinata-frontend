@@ -1,10 +1,8 @@
 import { FC } from "react";
-import { RecipeForm } from "../types/form";
 
 export interface PreviewProps {
   id: string;
   ariaLabelledBy: string;
-  formData: RecipeForm;
 }
 
 const Preview: FC<PreviewProps> = ({ id, ariaLabelledBy }) => {
