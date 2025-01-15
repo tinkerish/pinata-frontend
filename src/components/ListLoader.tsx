@@ -1,4 +1,4 @@
-import "./listCard.css";
+import "../styles/listCard.css";
 
 export const ListLoader = () => {
   return (

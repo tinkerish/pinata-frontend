@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import veg from "../assets/veg.png";
 import nonVeg from "../assets/non-veg.png";
-import "./listCard.css";
+import "../styles/listCard.css";
 import { useLocation } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { ActionMenu } from "./ActionMenu";

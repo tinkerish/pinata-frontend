@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-
 export interface AuthContextType {
   token: string | null;
   id: string | null;
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.getItem("authToken")
   );
   const [id, setId] = useState<string | null>(localStorage.getItem("authId"));
-
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     const storedId = localStorage.getItem("authId");

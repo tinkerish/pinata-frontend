@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./login.css";
 import plate from "../assets/dinner.png";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { validateEmail, validatePassword } from "../utils/authFormChecks";
 import axios from "axios";
 import { Loader } from "../components/Loader";
@@ -36,13 +36,16 @@ const SignupPage = () => {
       return;
     }
     try {
-      const response = await axios.post("https://pinata-backend.onrender.com/auth/signup", {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://pinata-backend.onrender.com/auth/signup",
+        {
+          name,
+          email,
+          password,
+        }
+      );
       console.log(response.data);
-      toast.success(response.data.message);
+      // toast.success(response.data.message);
       setEmail("");
       setPassword("");
       setName("");
@@ -50,9 +53,9 @@ const SignupPage = () => {
     } catch (error: unknown) {
       setLoading(false);
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || "An error occurred");
+        // toast.error(error.response?.data?.message || "An error occurred");
       } else {
-        toast.error("An unexpected error occurred");
+        // toast.error("An unexpected error occurred");
       }
     }
   };
@@ -165,7 +168,7 @@ const SignupPage = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

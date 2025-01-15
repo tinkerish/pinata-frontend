@@ -1,66 +1,128 @@
-import { FC,   useState } from "react";
+import { FC, useCallback, useMemo } from "react";
+import { Ingredient, IngredientMeasurement, Instruction } from "../types/form";
+import IngredientComponent from "./Ingredient";
+import InstructionComponent from "./Instruction";
+import { DynamicFieldContext } from "../types/common";
 export interface DynamicFieldProps {
-  value: string[];
-  onChange: (value: string[]) => void;
+  value: string[] | Ingredient[] | Instruction[];
+  onChange: (value: string[] | Ingredient[] | Instruction[]) => void;
+  context: DynamicFieldContext;
+  error: string[];
 }
-const DynamicFieldComponent: FC<DynamicFieldProps> = ({ value, onChange }) => {
-  const [fieldValue, setFieldValue] = useState<string[]>(
-    value.length === 0 ? [""] : value
-  );
+const DynamicFieldComponent: FC<DynamicFieldProps> = ({
+  value,
+  onChange,
+  context,
+  error,
+}) => {
+  const defaultValue = useMemo(() => {
+    return context === DynamicFieldContext.Ingredient
+      ? {
+          name: "",
+          quantity: 0,
+          measurementUnit: "grams" as IngredientMeasurement,
+          notes: "",
+        }
+      : context === DynamicFieldContext.Instruction
+      ? {
+          instruction: "",
+          image: "",
+          video: "",
+          tips: "",
+        }
+      : "";
+  }, [context]);
   function addField(e: React.MouseEvent<HTMLButtonElement>, index: number) {
     e.preventDefault();
-    const newFields = [...fieldValue];
-    if (index === fieldValue.length - 1) {
-      newFields.push("");
+    const newFields = [...value];
+    if (index === value.length - 1) {
+      newFields.push(defaultValue);
     } else {
-      newFields.splice(index + 1, 0, "");
+      newFields.splice(index + 1, 0, defaultValue);
     }
-    setFieldValue(newFields);
-    onChange(newFields);
+    if (context === DynamicFieldContext.Ingredient) {
+      onChange(newFields as Ingredient[]);
+    } else if (context === DynamicFieldContext.Instruction) {
+      onChange(newFields as Instruction[]);
+    }
   }
-  function changeHandler(val: string, index: number) {
-    const newFields = [...fieldValue];
-    newFields[index] = val;
-    setFieldValue(newFields);
-    onChange(newFields);
-  }
+  const changeHandler = useCallback(
+    (val: string | Ingredient | Instruction, index: number) => {
+      const newFields = [...value];
+      newFields[index] = val;
+      if (context === DynamicFieldContext.Ingredient) {
+        onChange(newFields as Ingredient[]);
+      } else if (context === DynamicFieldContext.Instruction) {
+        onChange(newFields as Instruction[]);
+      }
+    },
+
+    [context, onChange, value]
+  );
   function removeField(e: React.MouseEvent<HTMLButtonElement>, index: number) {
     e.preventDefault();
-    const newFields = fieldValue.filter((_, i) => i !== index);
-    setFieldValue(newFields);
-    onChange(newFields);
+    const newFields = value.filter((_, i) => i !== index);
+    if (context === DynamicFieldContext.Ingredient) {
+      onChange(newFields as Ingredient[]);
+    } else if (context === DynamicFieldContext.Instruction) {
+      onChange(newFields as Instruction[]);
+    }
   }
-  return (
-    <div className="flex flex-col gap-4">
-      <p>You can add your ingredients here</p>
-      {fieldValue.map((field, index) => (
-        <div key={index} className="flex gap-4 items-center">
-          <input
-            type="text"
-            value={field}
-            onChange={(e) => changeHandler(e.target.value, index)}
-            placeholder="Enter ingredient"
-            className="p-2"
+  const renderContext = (
+    field: string | Ingredient | Instruction,
+    index: number
+  ) => {
+    switch (context) {
+      case DynamicFieldContext.Ingredient:
+        return (
+          <IngredientComponent
+            value={field as Ingredient}
+            index={index}
+            onChange={changeHandler}
+            error={error?.[index]}
           />
-          <button
-            onClick={(e) => addField(e, index)}
-            className="w-8 h-8 border border-solid border-black rounded-full"
-          >
-            +
-          </button>
-          {fieldValue.length > 1 && (
-            <button
-              onClick={(e) => removeField(e, index)}
-              className="w-8 h-8 border border-solid border-black rounded-full"
-            >
-              -
-            </button>
-          )}
-        </div>
-      ))}
+        );
+      case DynamicFieldContext.Instruction:
+        return (
+          <InstructionComponent
+            value={field as Instruction}
+            index={index}
+            onChange={changeHandler}
+            error={error?.[index]}
+          />
+        );
+
+      default:
+        return "text";
+    }
+  };
+  return (
+    <div className="flex flex-col gap-4 w-full">
+      {value.map((field, index) => {
+        return (
+          <div className="flex justify-between items-center w-full">
+            {renderContext(field, index)}
+            <div className="w-[15%] flex justify-between items-center">
+              <button
+                onClick={(e) => addField(e, index)}
+                className="md:w-6 md:h-6 w-4 h-4 p-1 border border-solid border-black rounded-full flex items-center justify-center"
+              >
+                +
+              </button>
+              {value.length > 1 && (
+                <button
+                  onClick={(e) => removeField(e, index)}
+                  className="md:w-6 md:h-6 w-4 h-4 p-1 border border-solid border-black rounded-full flex items-center justify-center"
+                >
+                  -
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-// export const DynamicField =         (DynamicFieldComponent);
 export const DynamicField = DynamicFieldComponent;
