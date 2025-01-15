@@ -15,6 +15,8 @@ interface SelectProps {
   inputClassName?: string;
   className?: string;
   labelClassName?: string;
+  ariaDescribedby?: string;
+  ariaInvalid?: boolean;
 }
 
 const Select: FC<SelectProps> = ({
@@ -27,10 +29,15 @@ const Select: FC<SelectProps> = ({
   inputClassName,
   className,
   labelClassName,
+  ariaDescribedby,
+  ariaInvalid,
 }) => {
   return (
     <div className={className}>
-      <label htmlFor={name} hidden={labelHidden} className={labelClassName}>
+      <label
+        htmlFor={name}
+        className={`${labelClassName} ${labelHidden ? "sr-only" : ""}`}
+      >
         {label}
       </label>
       <select
@@ -39,6 +46,8 @@ const Select: FC<SelectProps> = ({
         name={name}
         id={name}
         className={inputClassName}
+        aria-describedby={ariaDescribedby}
+        aria-invalid={ariaInvalid}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

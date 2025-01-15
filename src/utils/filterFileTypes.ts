@@ -1,28 +1,17 @@
-export const filterFileTypes = (files: FileList | null) => {
-  const videoFiles: File[] = [];
-  const imageFiles: File[] = [];
-  const unwantedFiles: File[] = [];
-  if (files) {
-    for (let i = 0; i < files.length; i++) {
-      const fileType = files[i].type.split("/")[1];
-      if (
-        fileType === "png" ||
-        fileType === "jpg" ||
-        fileType === "gif" ||
-        fileType === "jpeg"
-      ) {
-        imageFiles.push(files[i]);
-      } else if (fileType === "mp4") {
-        videoFiles.push(files[i]);
-      } else {
-        unwantedFiles.push(files[i]);
-      }
-      console.log(files[i]);
+export const filterFileTypes = (
+  files: FileList | null,
+  allowedFileTypes: string[]
+) => {
+  if (!files) return { unwantedFiles: [], wantedFiles: [] };
+  const unwantedFiles = [];
+  const wantedFiles = [];
+  for (const file of files) {
+    console.log("file", file);
+    if (allowedFileTypes.includes(file.type)) {
+      wantedFiles.push(file);
+    } else {
+      unwantedFiles.push(file);
     }
   }
-  return {
-    imageFiles,
-    videoFiles,
-    unwantedFiles,
-  };
+  return { unwantedFiles, wantedFiles };
 };

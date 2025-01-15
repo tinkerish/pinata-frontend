@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { useAuth } from "../hooks/useAuth";
 import axios from "axios";
 import { FullLoader } from "../components/FullLoader";
+import useClearFormData from "../hooks/useClearFormData";
 
 const ProtectedPageComponent = () => {
   const { token } = useAuth();
@@ -13,6 +14,8 @@ const ProtectedPageComponent = () => {
     name: string;
     rating: number;
   } | null>(null);
+  const clearFormData = useClearFormData();
+  const location = useLocation();
   // useEffect(() => {
   //   if (!token) {
   //     window.location.href = "/";
@@ -45,6 +48,11 @@ const ProtectedPageComponent = () => {
 
   // if (!token) return null;
   // if (loading) return <FullLoader variant="full-screen" />;
+  useEffect(() => {
+    if (location.pathname === "/home/add-recipe") return;
+    clearFormData();
+  }, [clearFormData, location]);
+
   return (
     <main className="min-h-[100vh] flex flex-col justify-between gap-8">
       <Navbar

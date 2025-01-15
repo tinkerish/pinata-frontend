@@ -23,7 +23,7 @@ const Step3 = () => {
       value={value.instructions}
       context={DynamicFieldContext.Instruction}
       onChange={handleInstructionChange}
-      error={formErrors}
+      error={formErrors.instructions as string[]}
     />
   );
 };

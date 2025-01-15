@@ -22,3 +22,8 @@ export enum ToggleType {
   Checkbox = "checkbox",
   Switch = "switch",
 }
+export interface fileValidationError {
+  invalidFormat: string;
+  fileSize: string;
+  fileCount: string;
+}

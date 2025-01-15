@@ -1,4 +1,4 @@
-import { lazy, useCallback, useState } from "react";
+import { lazy, useCallback, useMemo, useState } from "react";
 // import { useParams } from "react-router-dom";
 // import { useAuth } from "../hooks/useAuth";
 // import axios from "axios";
@@ -8,55 +8,62 @@ import { Tabs } from "../components/Tabs";
 import { TabComponent } from "../types/common.tsx";
 import Loading from "../components/loading.tsx";
 import useFormStore from "../store/formStore.tsx";
+import useClearFormData from "../hooks/useClearFormData.ts";
 
 const EditComponent = lazy(
   () => import("../components/MultiStepForm/index.tsx")
 );
 const PreviewComponent = lazy(() => import("../components/Preview.tsx"));
 
-// const tabs = [
-//   { title: "Edit", component: EditComponent },
-//   { title: "Preview", component: PreviewComponent },
-// ];
 const AddRecipePageComponent = () => {
   // const { id } = useParams();
   // const { token } = useAuth();
   // const [recipe, setRecipe] = useState<ListCardProps | null>(null);
   const formData = useFormStore((state) => state.formData);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [tab, setTab] = useState(0);
+  const clearFormData = useClearFormData();
+  // const currentPath = location.pathname;
+  // console.log("Current Path", currentPath);
+
+  // useEffect(() => {
+  //   clearFormData();
+  // }, []);
   const submitHandler = useCallback(() => {
     try {
       setLoading(true);
       setTimeout(() => {
         console.log("Form Data", formData);
       }, 1000);
+      clearFormData();
     } catch (error) {
-      setError("Error submitting form" + error);
+      console.log("Error submitting form", error);
     } finally {
       setLoading(false);
     }
-  }, [formData]);
+  }, [formData, clearFormData]);
   const tabChangeHandler = (index: number) => {
     setTab(index);
   };
-  const tabs: TabComponent[] = [
-    {
-      title: "Edit",
-      component: EditComponent,
-      props: {
-        id: "tabpanel",
-        ariaLabelledBy: "tab",
-        submitHandler: submitHandler,
+  const tabs: TabComponent[] = useMemo(() => {
+    return [
+      {
+        title: "Edit",
+        component: EditComponent,
+        props: {
+          id: "tabpanel",
+          ariaLabelledBy: "tab",
+          submitHandler: submitHandler,
+        },
       },
-    },
-    {
-      title: "Preview",
-      component: PreviewComponent,
-      props: { id: "tabpanel", ariaLabelledBy: "tab" },
-    },
-  ];
+      {
+        title: "Preview",
+        component: PreviewComponent,
+        props: { id: "tabpanel", ariaLabelledBy: "tab" },
+      },
+    ];
+  }, [submitHandler]);
   // useEffect(() => {
   // console.log(error);
   //   if (id) {

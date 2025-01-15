@@ -15,7 +15,6 @@ import { Recipe } from "./pages/Recipe.tsx";
 import { Login } from "./pages/Login.tsx";
 import { Signup } from "./pages/Signup.tsx";
 import { AuthProvider } from "./context/index.tsx";
-// import { AuthProvider } from "./context/index.tsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -27,10 +26,8 @@ const router = createBrowserRouter(
         <Route path="recipe/:id" element={<Recipe />} />
       </Route>
       <Route path="*" element={<div>404</div>} />
-      {/* <Route path="/" element={<Login />}>  */}
       <Route path="/" element={<Login />} />
       <Route path="signup" element={<Signup />} />
-      {/* </Route> */}
     </>
   )
 );

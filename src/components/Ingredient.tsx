@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Ingredient } from "../types/form";
 import Select from "./Select";
 import { RiInformationFill } from "react-icons/ri";
+import Error from "./Error";
 const MeasurementOptions = [
   { value: "grams", name: "Grams" },
   { value: "cups", name: "Cups" },
@@ -19,11 +20,13 @@ interface IngredientComponentProps {
   value: Ingredient;
   onChange: (value: Ingredient, index: number) => void;
   index: number;
+  error?: string;
 }
 const IngredientComponent: FC<IngredientComponentProps> = ({
   value,
   onChange,
   index,
+  error,
 }) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -51,6 +54,9 @@ const IngredientComponent: FC<IngredientComponentProps> = ({
             value={value.name}
             onChange={handleChange}
             className="border border-solid border-gray-400 rounded-lg focus:outline-gray-500 w-full"
+            aria-label="Ingredient Name"
+            aria-invalid={!!error}
+            aria-describedby={error ? `ingredient-error-${index}` : undefined}
           />
         </div>
         <div className="flex flex-col gap-1 w-[29%]">
@@ -73,6 +79,7 @@ const IngredientComponent: FC<IngredientComponentProps> = ({
             value={value.notes}
             onChange={handleChange}
             className="border border-solid border-gray-400 rounded-lg focus:outline-gray-500 w-full"
+            aria-label="Notes"
           />
         </div>
       </div>
@@ -88,6 +95,9 @@ const IngredientComponent: FC<IngredientComponentProps> = ({
             value={value.quantity}
             className=" focus:outline-gray-500 border border-solid border-gray-400 w-[70%] rounded-lg"
             onChange={handleChange}
+            aria-label="Quantity"
+            aria-invalid={!!error}
+            aria-describedby={error ? `ingredient-error-${index}` : undefined}
           />
           <Select
             label={"Measurement Unit"}
@@ -99,6 +109,11 @@ const IngredientComponent: FC<IngredientComponentProps> = ({
             inputClassName="focus:outline-gray-500 border border-solid border-gray-400 w-full rounded-lg py-[1.865px]"
             className="w-[29%]"
           />
+        </div>
+        <div aria-live="assertive">
+          {error && (
+            <Error errorMessage={error} id={`ingredient-error-${index}`} />
+          )}
         </div>
       </div>
     </div>

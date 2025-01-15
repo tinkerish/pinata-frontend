@@ -29,7 +29,7 @@ const Step2 = () => {
       value={value.ingredients}
       context={DynamicFieldContext.Ingredient}
       onChange={handleIngredientChange}
-      error={formErrors}
+      error={formErrors.ingredients as string[]}
     />
   );
 };

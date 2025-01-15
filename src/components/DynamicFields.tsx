@@ -2,13 +2,12 @@ import { FC, useCallback, useMemo } from "react";
 import { Ingredient, IngredientMeasurement, Instruction } from "../types/form";
 import IngredientComponent from "./Ingredient";
 import InstructionComponent from "./Instruction";
-import Error from "./Error";
 import { DynamicFieldContext } from "../types/common";
 export interface DynamicFieldProps {
   value: string[] | Ingredient[] | Instruction[];
   onChange: (value: string[] | Ingredient[] | Instruction[]) => void;
   context: DynamicFieldContext;
-  error?: Record<string, string>;
+  error: string[];
 }
 const DynamicFieldComponent: FC<DynamicFieldProps> = ({
   value,
@@ -78,18 +77,18 @@ const DynamicFieldComponent: FC<DynamicFieldProps> = ({
         return (
           <IngredientComponent
             value={field as Ingredient}
-            // onChange={(value: Ingredient) => changeHandler(value, index)}
             index={index}
             onChange={changeHandler}
+            error={error?.[index]}
           />
         );
       case DynamicFieldContext.Instruction:
         return (
           <InstructionComponent
             value={field as Instruction}
-            // onChange={(value: Instruction) => changeHandler(value, index)}
             index={index}
             onChange={changeHandler}
+            error={error?.[index]}
           />
         );
 
@@ -122,7 +121,6 @@ const DynamicFieldComponent: FC<DynamicFieldProps> = ({
           </div>
         );
       })}
-      {error?.ingredients && <Error errorMessage={error.ingredients} />}
     </div>
   );
 };

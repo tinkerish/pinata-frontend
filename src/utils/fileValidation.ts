@@ -1,28 +1,36 @@
+import { FileMetaDataType } from "../types/form";
+
 export const fileValidation = (
-  imageFiles: File[],
-  videoFiles: File[],
-  unwantedFiles: File[]
+  wantedFiles: File[],
+  previousFiles: FileMetaDataType[] | FileMetaDataType,
+  unwantedFiles: File[],
+  maxFiles: number,
+  maxFileSize: string
 ) => {
   const errors = {
-    imageFiles: "",
-    videoFiles: "",
-    unwantedFiles: "",
+    invalidFormat: "",
+    fileSize: "",
+    fileCount: "",
   };
-  let isErrors = false;
-  if (imageFiles?.length > 3) {
-    errors.imageFiles = "Max 3 image files allowed";
+  const mergedFiles = Array.isArray(previousFiles)
+    ? [...previousFiles, ...wantedFiles]
+    : [previousFiles, ...wantedFiles];
+  if (unwantedFiles.length > 0) {
+    errors.invalidFormat = "Invalid file format";
   }
-  if (videoFiles?.length > 1) {
-    errors.videoFiles = "Max 1 audio file allowed";
+  if (mergedFiles.length > maxFiles) {
+    errors.fileCount = "File count exceeded";
   }
-  if (unwantedFiles?.length > 0) {
-    errors.unwantedFiles = "Other file types are not allowed";
+  let totalSize = 0;
+  for (const file of wantedFiles) {
+    totalSize += file.size;
   }
-  if (errors.imageFiles || errors.videoFiles || errors.unwantedFiles) {
-    isErrors = true;
+  const maxSize = parseInt(maxFileSize) * 1024 * 1024;
+  if (totalSize > maxSize) {
+    errors.fileSize = "File size exceeded";
   }
   return {
     errors,
-    isErrors,
+    isErrors: Object.values(errors).some((error) => error.length > 0),
   };
 };

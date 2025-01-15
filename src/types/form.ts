@@ -23,10 +23,16 @@ export interface Ingredient {
   measurementUnit: IngredientMeasurement;
   notes?: string;
 }
+export interface FileMetaDataType {
+  name: string;
+  type: string;
+  size: number;
+  url: string;
+}
 export interface Instruction {
   instruction: string;
-  image?: string;
-  video?: string;
+  image?: FileMetaDataType[];
+  video?: FileMetaDataType;
   tips?: string;
 }
 export interface RecipeForm {
@@ -36,13 +42,28 @@ export interface RecipeForm {
   estimatedCookingTime: MeasurementUnit;
   servingSize: number;
   difficulty: Difficulty;
-  coverImage: string;
+  coverImage?: FileMetaDataType;
   ingredients: Ingredient[];
   instructions: Instruction[];
+  nutrition: {
+    calories: number;
+    totalFat: MeasurementUnit;
+    saturatedFat: MeasurementUnit;
+    cholesterol: MeasurementUnit;
+    sodium: MeasurementUnit;
+    totalCarbohydrate: MeasurementUnit;
+    dietaryFiber: MeasurementUnit;
+    totalSugars: MeasurementUnit;
+    protein: MeasurementUnit;
+    calcium: MeasurementUnit;
+    iron: MeasurementUnit;
+    potassium: MeasurementUnit;
+    vitaminC: MeasurementUnit;
+  };
 }
 
 export interface FormValidation {
-  errors: Record<string, string>;
+  errors: Record<string, string | string[]>;
   isErrors: boolean;
 }
 export enum FileUploadType {
@@ -52,3 +73,4 @@ export enum FileUploadType {
   GIF = "image/gif",
   MP4 = "video/mp4",
 }
+export type UploadStatus = "success" | "error" | "uploading" | "idle" | null;

@@ -2,7 +2,7 @@ import { RecipeForm } from "../types/form";
 
 const checkErrors = (formData: RecipeForm, step: number) => {
   console.log("formData", formData);
-  const errors: Record<string, string> = {};
+  const errors: Record<string, string | string[]> = {};
   switch (step) {
     case 0:
       if (!formData.title) {
@@ -33,25 +33,34 @@ const checkErrors = (formData: RecipeForm, step: number) => {
         isErrors: Object.keys(errors).length > 0,
       };
     case 1:
+      errors["ingredients"] = [];
       for (const ingredient of formData.ingredients) {
         if (
           !ingredient.name ||
           ingredient.quantity < 0 ||
           !ingredient.measurementUnit
         ) {
-          errors["ingredients"] =
-            "Ingredient name and measurement is required.";
+          errors["ingredients"].push(
+            "Ingredient name is required, quantity should be a valid number, measurement unit is required."
+          );
         }
+      }
+      if (errors["ingredients"].length === 0) {
+        delete errors["ingredients"];
       }
       return {
         errors,
         isErrors: Object.keys(errors).length > 0,
       };
     case 2:
+      errors["instructions"] = [];
       for (const instruction of formData.instructions) {
         if (!instruction.instruction) {
-          errors["instructions"] = "Instruction is required.";
+          errors["instructions"].push("Instruction is required.");
         }
+      }
+      if (errors["instructions"].length === 0) {
+        delete errors["instructions"];
       }
       return {
         errors,

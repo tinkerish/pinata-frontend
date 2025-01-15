@@ -1,14 +1,17 @@
 import "../styles/record.css";
 import { FC, useEffect, useRef, useState } from "react";
 import { IoMdMic, IoMdMicOff } from "react-icons/io";
-import Error from "./Error";
 interface SpeechRecognitionComponentProps {
   onChange: (val: string, name: string) => void;
   value: string;
+  error?: string;
+  index: number;
 }
 const SpeechRecognitionComponent: FC<SpeechRecognitionComponentProps> = ({
   value,
   onChange,
+  error,
+  index,
 }) => {
   const [recordIcon, setRecordIcon] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,6 +63,10 @@ const SpeechRecognitionComponent: FC<SpeechRecognitionComponentProps> = ({
           }}
           className="w-[95%] outline-none"
           disabled={recordIcon}
+          aria-disabled={recordIcon}
+          aria-label="Instruction"
+          aria-invalid={!!error}
+          aria-describedby={error ? `instruction-error-${index}` : undefined}
         />
         <button
           id="micButton"
@@ -73,7 +80,6 @@ const SpeechRecognitionComponent: FC<SpeechRecognitionComponentProps> = ({
           )}
         </button>
       </div>
-      {errorMessage && <Error errorMessage={errorMessage} />}
     </div>
   );
 };

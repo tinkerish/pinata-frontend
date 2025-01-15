@@ -47,7 +47,11 @@ interface TabProps {
 }
 export const Tab: FC<TabProps> = ({ title, onClick, active, index }) => {
   return (
-    <div aria-controls={`tabpanel-${index}`} id={`tab-${index}`}>
+    <div
+      aria-selected={active}
+      aria-controls={`tabpanel-${index}`}
+      id={`tab-${index}`}
+    >
       <button
         className={`${active ? "text-red-800" : ""}`}
         onClick={() => onClick(index)}

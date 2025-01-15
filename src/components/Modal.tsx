@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { focusTrapping } from "../utils/focusTrap";
 const POSITIONS = {
   "top-left": "flex justify-start items-start",
-  "center": "flex justify-center items-center",
+  center: "flex justify-center items-center",
   "bottom-right": "flex justify-end items-end",
   "bottom-left": "flex justify-start items-end",
   "top-right": "flex justify-end items-start",
@@ -29,6 +29,7 @@ interface ModalProps {
     | "bottom-center";
   isOutsideClickable?: boolean;
   escapable?: boolean;
+  onSave?: () => void;
 }
 const Modal: FC<ModalProps> = ({
   title,
@@ -39,6 +40,7 @@ const Modal: FC<ModalProps> = ({
   escapable = true,
   show,
   actionButtonName,
+  onSave,
   children,
 }) => {
   const [container, setContainer] = useState<Element | null>(null);
@@ -101,7 +103,6 @@ const Modal: FC<ModalProps> = ({
       modalRef.current.focus();
     }
   }, [show]);
-  console.log(document.activeElement);
 
   if (!container || !show) return null;
   return createPortal(
@@ -149,6 +150,7 @@ const Modal: FC<ModalProps> = ({
         <section id="modal-content">{children}</section>
         <footer className="flex absolute top-[85%] left-0 items-center justify-center w-full ">
           <button
+            onClick={onSave}
             className="z-10 text-center rounded-[3rem] bg-[#4c84ea] text-white p-1 w-[5rem]"
             aria-label="save"
           >
