@@ -13,7 +13,9 @@ import useClearFormData from "../hooks/useClearFormData.ts";
 const EditComponent = lazy(
   () => import("../components/MultiStepForm/index.tsx")
 );
-const PreviewComponent = lazy(() => import("../components/Preview.tsx"));
+const PreviewComponent = lazy(
+  () => import("../components/Preview/index.tsx")
+);
 
 const AddRecipePageComponent = () => {
   // const { id } = useParams();

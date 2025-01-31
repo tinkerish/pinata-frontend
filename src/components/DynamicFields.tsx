@@ -1,7 +1,7 @@
 import { FC, useCallback, useMemo } from "react";
 import { Ingredient, IngredientMeasurement, Instruction } from "../types/form";
-import IngredientComponent from "./Ingredient";
-import InstructionComponent from "./Instruction";
+import IngredientComponent from "./MultiStepForm/Ingredient";
+import InstructionComponent from "./MultiStepForm/Instruction";
 import { DynamicFieldContext } from "../types/common";
 export interface DynamicFieldProps {
   value: string[] | Ingredient[] | Instruction[];
@@ -26,8 +26,8 @@ const DynamicFieldComponent: FC<DynamicFieldProps> = ({
       : context === DynamicFieldContext.Instruction
       ? {
           instruction: "",
-          image: "",
-          video: "",
+          image: undefined,
+          video: undefined,
           tips: "",
         }
       : "";

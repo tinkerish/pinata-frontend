@@ -1,11 +1,11 @@
 import { FC, useCallback, useRef, useState } from "react";
-import { FileMetaDataType, Instruction } from "../types/form";
-import SpeechRecognitionComponent from "./SpeechRecognition";
-import Modal from "./Modal";
-import FileUploader, { FileUploaderHandle } from "./FileUploader";
+import { FileMetaDataType, Instruction } from "../../types/form";
+import SpeechRecognitionComponent from "../SpeechRecognition";
+import Modal from "../Modal";
+import FileUploader, { FileUploaderHandle } from "../FileUploader";
 import { MdOutlineFileUpload } from "react-icons/md";
-import "../styles/instruction.css";
-import Error from "./Error";
+import "../../styles/instruction.css";
+import Error from "../Error";
 const MAX_IMAGE_SIZE = "8 MB";
 const MAX_VIDEO_SIZE = "10 MB";
 const IMAGE_FILE_TYPE = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
