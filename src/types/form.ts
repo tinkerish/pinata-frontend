@@ -35,6 +35,21 @@ export interface Instruction {
   video?: FileMetaDataType;
   tips?: string;
 }
+export interface Nutrition {
+  calories: number;
+  totalFat: MeasurementUnit;
+  saturatedFat: MeasurementUnit;
+  cholesterol: MeasurementUnit;
+  sodium: MeasurementUnit;
+  totalCarbohydrate: MeasurementUnit;
+  dietaryFiber: MeasurementUnit;
+  totalSugars: MeasurementUnit;
+  protein: MeasurementUnit;
+  calcium: MeasurementUnit;
+  iron: MeasurementUnit;
+  potassium: MeasurementUnit;
+  vitaminC: MeasurementUnit;
+}
 export interface RecipeForm {
   title: string;
   description: string;
@@ -45,21 +60,7 @@ export interface RecipeForm {
   coverImage?: FileMetaDataType;
   ingredients: Ingredient[];
   instructions: Instruction[];
-  nutrition: {
-    calories: number;
-    totalFat: MeasurementUnit;
-    saturatedFat: MeasurementUnit;
-    cholesterol: MeasurementUnit;
-    sodium: MeasurementUnit;
-    totalCarbohydrate: MeasurementUnit;
-    dietaryFiber: MeasurementUnit;
-    totalSugars: MeasurementUnit;
-    protein: MeasurementUnit;
-    calcium: MeasurementUnit;
-    iron: MeasurementUnit;
-    potassium: MeasurementUnit;
-    vitaminC: MeasurementUnit;
-  };
+  nutrition: Nutrition;
 }
 
 export interface FormValidation {

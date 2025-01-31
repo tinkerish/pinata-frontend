@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { Ingredient } from "../types/form";
-import Select from "./Select";
+import { Ingredient } from "../../types/form";
+import Select from "../Select";
 import { RiInformationFill } from "react-icons/ri";
-import Error from "./Error";
+import Error from "../Error";
 const MeasurementOptions = [
   { value: "grams", name: "Grams" },
   { value: "cups", name: "Cups" },
