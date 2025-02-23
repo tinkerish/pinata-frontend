@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import { useAuth } from "../hooks/useAuth";
-import axios from "axios";
-import { FullLoader } from "../components/FullLoader";
+// import { useAuth } from "../hooks/useAuth";
+// import axios from "axios";
+// import { FullLoader } from "../components/FullLoader";
 import useClearFormData from "../hooks/useClearFormData";
 
 const ProtectedPageComponent = () => {
-  const { token } = useAuth();
+  // const { token } = useAuth();
   const [userData, setUserData] = useState<{
     email: string;
     name: string;
@@ -54,7 +54,7 @@ const ProtectedPageComponent = () => {
   }, [clearFormData, location]);
 
   return (
-    <main className="min-h-[100vh] flex flex-col justify-between gap-8">
+    <main className="flex flex-col justify-between font-itim">
       <Navbar
         email={userData?.email || "priya"}
         name={userData?.name || "priya"}

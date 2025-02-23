@@ -5,6 +5,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xsm': '540px',
+        'xxsm': '480px',
+        'xxxsm': '360px',
+        'xxxxsm': '240px',
+        'xlg': '896px',
+        'xxl': "1160px" 
+      },
       keyframes: {
         customPulse: {
             '0%': { transform: 'scale(0.8)' },
@@ -35,6 +43,8 @@ module.exports = {
       },
       fontFamily:{
         'merri':['Merriweather', 'serif'],
+        'itim':["Itim", "serif"],
+        'garamond':["Cormorant Garamond", "serif"],
       }
     },
   },
