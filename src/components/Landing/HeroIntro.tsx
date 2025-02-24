@@ -5,11 +5,11 @@ import "../../styles/hero.css";
 
 const HeroIntro = () => {
   return (
-    <div className="polygon-shape text-[#efead5] xl:pb-2 pb-8 max-xlg:py-20">
+    <div className="polygon-shape text-[#efead5] pb-0 max-xlg:py-20 max-2xl:pb-10">
       <div className="w-full flex px-24 max-md:flex-col-reverse items-center max-md:gap-4 max-md:px-14">
         <div className="w-[50%] flex flex-col gap-14 max-md:w-full max-md:text-center">
           <div>
-            <h1 className="font-garamond text-[12rem] leading-none font-black max-xxl:text-[10rem] max-lg:text-[8rem] max-xlg:text-[6rem] max-sm:text-[5rem] max-xsm:text-[4rem] max-xxsm:text-[3rem]">
+            <h1 className="font-garamond text-[10rem] leading-none font-black max-[1815px]:text-[8rem] max-2xl:text-[6rem]  max-lg:text-[5rem] max-xlg:text-[4rem] max-sm:text-[3rem]">
               Follow Your Taste
             </h1>
             <p className="text-4xl font-extrabold font-itim max-xxl:text-3xl max-lg:text-2xl max-xxsm:text-xl">
